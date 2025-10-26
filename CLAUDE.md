@@ -133,21 +133,60 @@ npm run lint
 - Fermentation timeline tracking
 - PDF export functionality
 
+## Deployment
+
+### Google Cloud Run (Recommended)
+
+The project is optimized for Google Cloud Run deployment:
+
+**Quick Deploy:**
+```bash
+./scripts/deploy-gcp.sh YOUR_PROJECT_ID us-central1
+# or
+.\scripts\Deploy-GCP.ps1 -ProjectId "your-project-id"  # Windows
+```
+
+**Key Files:**
+- `cloudbuild.yaml` - Automated Cloud Build configuration
+- `scripts/deploy-gcp.sh` - Bash deployment script
+- `scripts/Deploy-GCP.ps1` - PowerShell deployment script
+- `.gcloudignore` - Files to exclude from GCP uploads
+- `GCP-DEPLOYMENT.md` - Complete GCP deployment guide
+
+**Features:**
+- Multi-stage Docker builds for minimal image size
+- Alpine Linux for smaller containers
+- Non-root user for security
+- Health checks configured
+- CORS configured for Cloud Run domains
+- Artifact Registry integration
+- Automatic scaling
+- Cost-efficient ($2-10/month estimated)
+
+See [GCP-DEPLOYMENT.md](GCP-DEPLOYMENT.md) for detailed instructions.
+
+### Local Docker Development
+
+```bash
+docker-compose build
+docker-compose up
+```
+
 ## Getting Started
 
-When project files are added:
 1. Clone the repository
-2. Install dependencies (npm install, dotnet restore)
-3. Check specific setup instructions in README.md
-4. Run local development servers/API
-5. Verify tests pass
+2. Install dependencies (`npm install`, `dotnet restore`)
+3. For local development: `npm run dev` and `dotnet run`
+4. For deployment: Follow [GCP-DEPLOYMENT.md](GCP-DEPLOYMENT.md)
 
 ## Important Notes
 
-- **VS Code settings are tracked**: `.vscode/settings.json`, `.vscode/tasks.json`, `.vscode/launch.json`, and `.vscode/extensions.json` are intentionally included in the repository (see negated patterns in .gitignore)
-- **Environment files are ignored**: `.env` files are in .gitignore for security
-- **Build outputs are ignored**: `bin/`, `obj/`, `Debug/`, `Release/`, and other build artifacts
-- **Test results are ignored**: TestResult files and coverage reports are not tracked
+- **Docker optimized**: Both backend and frontend use Alpine Linux for minimal size
+- **GCP optimized**: Configured for Cloud Run (port 8080, health checks, security)
+- **VS Code settings tracked**: `.vscode/settings.json`, `.vscode/tasks.json`, etc. are tracked
+- **Environment files ignored**: `.env` files in .gitignore for security
+- **Cloud Build enabled**: Push to main branch triggers automatic deployment
+- **Build outputs ignored**: `bin/`, `obj/`, `dist/`, and other artifacts
 
 ## When Adding New Features
 

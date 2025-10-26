@@ -2,6 +2,12 @@
 
 This guide covers deploying MeadCalculator to various environments.
 
+## Quick Links
+
+- **Google Cloud Run (Recommended):** See [GCP-DEPLOYMENT.md](GCP-DEPLOYMENT.md)
+- **Docker Compose (Local):** See [Docker Deployment](#docker-deployment) below
+- **Traditional Server:** See [Traditional Linux Server](#traditional-linux-server) below
+
 ## Local Development
 
 ### Quick Start
@@ -49,8 +55,31 @@ docker run -p 5000:8080 meadcalculator-api
 ```bash
 cd frontend
 docker build -t meadcalculator-frontend .
-docker run -p 80:80 meadcalculator-frontend
+docker run -p 8080:8080 meadcalculator-frontend
 ```
+
+## Google Cloud Run (Recommended)
+
+For detailed GCP deployment instructions, see [GCP-DEPLOYMENT.md](GCP-DEPLOYMENT.md).
+
+### Quick Deployment
+
+```bash
+# Using provided deployment script
+./scripts/deploy-gcp.sh your-gcp-project-id us-central1
+
+# Or PowerShell on Windows
+.\scripts\Deploy-GCP.ps1 -ProjectId "your-gcp-project-id"
+```
+
+Benefits of Cloud Run:
+- ✅ Serverless - pay only for usage
+- ✅ Auto-scaling - handles traffic spikes
+- ✅ No infrastructure management
+- ✅ Integrated monitoring and logging
+- ✅ $2.50/month always-free tier
+- ✅ Global CDN included
+- ✅ Custom domains supported
 
 ## Production Deployment
 

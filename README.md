@@ -191,6 +191,36 @@ Performs mead calculation
 }
 ```
 
+## Deployment
+
+### Google Cloud Run (Recommended)
+
+Deploy to Google Cloud Platform with Docker:
+
+```bash
+# Quick deployment script
+./scripts/deploy-gcp.sh YOUR_GCP_PROJECT_ID us-central1
+
+# Or PowerShell (Windows)
+.\scripts\Deploy-GCP.ps1 -ProjectId "your-gcp-project-id"
+```
+
+See [GCP-DEPLOYMENT.md](GCP-DEPLOYMENT.md) for detailed instructions including:
+- Manual deployment steps
+- Cloud Build automation
+- Configuration and monitoring
+- Cost optimization
+- Troubleshooting
+
+### Docker Compose (Local)
+
+```bash
+docker-compose build
+docker-compose up
+```
+
+Access at `http://localhost`
+
 ## Development
 
 ### Build Backend

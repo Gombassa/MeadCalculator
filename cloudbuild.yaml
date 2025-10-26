@@ -1,0 +1,117 @@
+# Google Cloud Build configuration for MeadCalculator
+# This file configures automatic building and deployment to Cloud Run
+
+steps:
+  # Step 1: Build backend Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-api'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-api:${SHORT_SHA}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-api:latest'
+      - '-f'
+      - 'MeadCalculator.API/Dockerfile'
+      - '.'
+
+  # Step 2: Build frontend Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-frontend'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-frontend:${SHORT_SHA}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-frontend:latest'
+      - '-f'
+      - 'frontend/Dockerfile'
+      - 'frontend/'
+
+  # Step 3: Push backend image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-api'
+    args:
+      - 'push'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-api:${SHORT_SHA}'
+
+  # Step 4: Push frontend image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-frontend'
+    args:
+      - 'push'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-frontend:${SHORT_SHA}'
+
+  # Step 5: Deploy backend to Cloud Run
+  - name: 'gcr.io/cloud-builders/run'
+    id: 'deploy-api'
+    args:
+      - 'deploy'
+      - 'meadcalc-api'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-api:${SHORT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--memory'
+      - '512Mi'
+      - '--cpu'
+      - '1'
+      - '--timeout'
+      - '3600'
+      - '--set-env-vars'
+      - 'ASPNETCORE_ENVIRONMENT=Production'
+
+  # Step 6: Deploy frontend to Cloud Run
+  - name: 'gcr.io/cloud-builders/run'
+    id: 'deploy-frontend'
+    args:
+      - 'deploy'
+      - 'meadcalc-frontend'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-frontend:${SHORT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--memory'
+      - '256Mi'
+      - '--cpu'
+      - '1'
+      - '--timeout'
+      - '3600'
+
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-api:${SHORT_SHA}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-api:latest'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-frontend:${SHORT_SHA}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-frontend:latest'
+
+# Artifact Registry for storing Docker images
+artifacts:
+  images:
+    - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-api:${SHORT_SHA}'
+    - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/meadcalc-frontend:${SHORT_SHA}'
+
+# Build options
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'N1_HIGHCPU_8'
+
+# Substitutions for custom values
+substitutions:
+  _REGION: 'us-central1'        # Change to your preferred GCP region
+  _REPOSITORY: 'meadcalc-repo'  # Artifact Registry repository name
+
+# Build triggers on push to main branch
+onPush:
+  branch: '^main$'
+
+# Timeout for build (in seconds)
+timeout: '3600s'
+
+# Service account (optional - uses default if not specified)
+# serviceAccount: 'projects/${PROJECT_ID}/serviceAccounts/cloud-build@${PROJECT_ID}.iam.gserviceaccount.com'

@@ -1,0 +1,78 @@
+# Google Cloud Build ignore file
+# Prevents unnecessary files from being sent to Cloud Build
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node
+node_modules
+npm-debug.log
+npm-error.log
+yarn-error.log
+.npm
+.eslintcache
+frontend/dist
+frontend/build
+frontend/.env.local
+frontend/.env.*.local
+
+# .NET
+bin
+obj
+.vs
+.vscode
+*.user
+*.DotSettings.user
+*.trx
+TestResults
+coverage
+.editorconfig
+
+# Build outputs
+dist
+build
+out
+publish
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+.cache
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Documentation files (optional - keep if documenting builds)
+# *.md
+# DEPLOYMENT.md
+
+# Docker
+.dockerignore
+
+# GitHub
+.github
+
+# CI/CD
+.travis.yml
+.circleci
+gitlab-ci.yml
+
+# Others
+.claude
+.history
+__pycache__
+*.pyc
