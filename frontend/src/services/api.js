@@ -21,4 +21,10 @@ export const calculatorService = {
   calculate: (request) => api.post('/calculator/calculate', request),
 }
 
+export const nutrientService = {
+  calculateYAN: (request) => api.post('/nutrient/calculate-yan', request),
+  generateSNA: (request) => api.post('/nutrient/generate-sna', request),
+  getAdditives: () => api.get('/nutrient/additives'),
+}
+
 export default api

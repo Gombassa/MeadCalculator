@@ -18,6 +18,7 @@ builder.Services.AddCors(options =>
 // Register services
 builder.Services.AddScoped<ICalculationService, CalculationService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
+builder.Services.AddScoped<INutrientService, NutrientService>();
 
 var app = builder.Build();
 

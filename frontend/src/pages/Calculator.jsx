@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import { ingredientService, calculatorService } from '../services/api'
 import IngredientForm from '../components/IngredientForm'
 import CalculationResults from '../components/CalculationResults'
+import NutrientCalculator from '../components/NutrientCalculator'
 
 export default function Calculator() {
+  const [activeTab, setActiveTab] = useState('abv')
   const [ingredients, setIngredients] = useState([])
   const [allIngredients, setAllIngredients] = useState([])
   const [calculationMode, setCalculationMode] = useState('HoneyWeight')
@@ -101,105 +103,139 @@ export default function Calculator() {
           Calculate your mead recipe with precision
         </p>
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-            {error}
-          </div>
-        )}
+        {/* Tab Navigation */}
+        <div className="flex gap-4 mb-8">
+          <button
+            onClick={() => setActiveTab('abv')}
+            className={`px-6 py-3 rounded-lg font-semibold transition ${
+              activeTab === 'abv'
+                ? 'bg-gradient-to-r from-amber-600 to-yellow-600 text-white'
+                : 'bg-white text-amber-900 border border-amber-300 hover:border-amber-600'
+            }`}
+          >
+            ABV Calculator
+          </button>
+          <button
+            onClick={() => setActiveTab('nutrients')}
+            className={`px-6 py-3 rounded-lg font-semibold transition ${
+              activeTab === 'nutrients'
+                ? 'bg-gradient-to-r from-amber-600 to-yellow-600 text-white'
+                : 'bg-white text-amber-900 border border-amber-300 hover:border-amber-600'
+            }`}
+          >
+            Nutrient Calculator (SNA)
+          </button>
+        </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Input Section */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-              <h2 className="text-2xl font-bold text-amber-900 mb-6">
-                Recipe Ingredients
-              </h2>
-
-              <div className="space-y-4 mb-6">
-                {ingredients.map(ing => (
-                  <IngredientForm
-                    key={ing.id}
-                    ingredient={ing}
-                    allIngredients={allIngredients}
-                    onUpdate={updateIngredient}
-                    onRemove={removeIngredient}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={addIngredient}
-                className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-              >
-                + Add Ingredient
-              </button>
-            </div>
-
-            {/* Calculation Mode Section */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-amber-900 mb-6">
-                Calculation Mode
-              </h2>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold text-amber-900 mb-2">
-                    Mode
-                  </label>
-                  <select
-                    value={calculationMode}
-                    onChange={(e) => setCalculationMode(e.target.value)}
-                    className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  >
-                    <option value="HoneyWeight">
-                      Calculate ABV from ingredients
-                    </option>
-                    <option value="TargetABV">
-                      Target ABV (calculate honey needed)
-                    </option>
-                    <option value="TargetVolume">
-                      Target Volume
-                    </option>
-                  </select>
-                </div>
-
-                {calculationMode !== 'HoneyWeight' && (
-                  <div>
-                    <label className="block text-sm font-semibold text-amber-900 mb-2">
-                      {calculationMode === 'TargetABV' ? 'Target ABV (%)' : 'Target Volume (ml)'}
-                    </label>
-                    <input
-                      type="number"
-                      value={targetValue}
-                      onChange={(e) => setTargetValue(e.target.value)}
-                      placeholder={calculationMode === 'TargetABV' ? 'e.g., 12' : 'e.g., 5000'}
-                      className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    />
-                  </div>
-                )}
-
-                <button
-                  onClick={handleCalculate}
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-amber-600 to-yellow-600 text-white px-4 py-3 rounded font-semibold hover:from-amber-700 hover:to-yellow-700 transition disabled:opacity-50"
-                >
-                  {loading ? 'Calculating...' : 'Calculate'}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Results Section */}
-          <div>
-            {results ? (
-              <CalculationResults results={results} />
-            ) : (
-              <div className="bg-white rounded-lg shadow-lg p-6 text-center text-amber-700">
-                <p>Results will appear here</p>
+        {/* ABV Calculator Tab */}
+        {activeTab === 'abv' && (
+          <>
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                {error}
               </div>
             )}
-          </div>
-        </div>
+
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Input Section */}
+              <div className="lg:col-span-2">
+                <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                  <h2 className="text-2xl font-bold text-amber-900 mb-6">
+                    Recipe Ingredients
+                  </h2>
+
+                  <div className="space-y-4 mb-6">
+                    {ingredients.map(ing => (
+                      <IngredientForm
+                        key={ing.id}
+                        ingredient={ing}
+                        allIngredients={allIngredients}
+                        onUpdate={updateIngredient}
+                        onRemove={removeIngredient}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={addIngredient}
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                  >
+                    + Add Ingredient
+                  </button>
+                </div>
+
+                {/* Calculation Mode Section */}
+                <div className="bg-white rounded-lg shadow-lg p-6">
+                  <h2 className="text-2xl font-bold text-amber-900 mb-6">
+                    Calculation Mode
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-amber-900 mb-2">
+                        Mode
+                      </label>
+                      <select
+                        value={calculationMode}
+                        onChange={(e) => setCalculationMode(e.target.value)}
+                        className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                      >
+                        <option value="HoneyWeight">
+                          Calculate ABV from ingredients
+                        </option>
+                        <option value="TargetABV">
+                          Target ABV (calculate honey needed)
+                        </option>
+                        <option value="TargetVolume">
+                          Target Volume
+                        </option>
+                      </select>
+                    </div>
+
+                    {calculationMode !== 'HoneyWeight' && (
+                      <div>
+                        <label className="block text-sm font-semibold text-amber-900 mb-2">
+                          {calculationMode === 'TargetABV' ? 'Target ABV (%)' : 'Target Volume (ml)'}
+                        </label>
+                        <input
+                          type="number"
+                          value={targetValue}
+                          onChange={(e) => setTargetValue(e.target.value)}
+                          placeholder={calculationMode === 'TargetABV' ? 'e.g., 12' : 'e.g., 5000'}
+                          className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        />
+                      </div>
+                    )}
+
+                    <button
+                      onClick={handleCalculate}
+                      disabled={loading}
+                      className="w-full bg-gradient-to-r from-amber-600 to-yellow-600 text-white px-4 py-3 rounded font-semibold hover:from-amber-700 hover:to-yellow-700 transition disabled:opacity-50"
+                    >
+                      {loading ? 'Calculating...' : 'Calculate'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Results Section */}
+              <div>
+                {results ? (
+                  <CalculationResults results={results} />
+                ) : (
+                  <div className="bg-white rounded-lg shadow-lg p-6 text-center text-amber-700">
+                    <p>Results will appear here</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Nutrient Calculator Tab */}
+        {activeTab === 'nutrients' && (
+          <NutrientCalculator specificGravity={results?.specificGravity} brix={results?.brix} />
+        )}
       </div>
     </div>
   )
