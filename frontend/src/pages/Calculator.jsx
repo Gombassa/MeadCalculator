@@ -15,6 +15,8 @@ export default function Calculator() {
   const [desiredABV, setDesiredABV] = useState('')
   const [results, setResults] = useState(null)
   const [error, setError] = useState('')
+  const [isCalculating, setIsCalculating] = useState(false)
+  const [calculationTime, setCalculationTime] = useState(null)
 
   const loadIngredients = async () => {
     try {
@@ -38,8 +40,12 @@ export default function Calculator() {
     // Prepare honey
     if (!honey.ingredientId || !honey.amount) {
       setResults(null)
+      setCalculationTime(null)
       return
     }
+
+    setIsCalculating(true)
+    const startTime = Date.now()
 
     try {
       const selectedHoney = honeys.find(h => h.id === parseInt(honey.ingredientId))
@@ -108,9 +114,12 @@ export default function Calculator() {
 
       const response = await calculatorService.calculate(request)
       setResults(response.data)
+      setCalculationTime(Date.now() - startTime)
+      setIsCalculating(false)
     } catch (err) {
       setError('Calculation failed: ' + (err.response?.data?.message || err.message))
       setResults(null)
+      setIsCalculating(false)
     }
   }, [honey, ingredients, honeys, allIngredients, desiredVolume, desiredABV])
 
@@ -163,7 +172,9 @@ export default function Calculator() {
         <div className="flex gap-4 mb-8">
           <button
             onClick={() => setActiveTab('abv')}
-            className={`px-6 py-3 rounded-lg font-semibold transition ${
+            aria-label="View ABV calculator"
+            aria-current={activeTab === 'abv' ? 'page' : undefined}
+            className={`px-6 py-3 rounded-lg font-semibold transition min-h-[44px] min-w-[44px] flex items-center justify-center ${
               activeTab === 'abv'
                 ? 'bg-gradient-to-r from-amber-600 to-yellow-600 text-white'
                 : 'bg-white text-amber-900 border border-amber-300 hover:border-amber-600'
@@ -173,7 +184,9 @@ export default function Calculator() {
           </button>
           <button
             onClick={() => setActiveTab('nutrients')}
-            className={`px-6 py-3 rounded-lg font-semibold transition ${
+            aria-label="View nutrient calculator"
+            aria-current={activeTab === 'nutrients' ? 'page' : undefined}
+            className={`px-6 py-3 rounded-lg font-semibold transition min-h-[44px] min-w-[44px] flex items-center justify-center ${
               activeTab === 'nutrients'
                 ? 'bg-gradient-to-r from-amber-600 to-yellow-600 text-white'
                 : 'bg-white text-amber-900 border border-amber-300 hover:border-amber-600'
@@ -204,33 +217,39 @@ export default function Calculator() {
             {/* Desired Volume and ABV Inputs */}
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div className="bg-white rounded-lg shadow-lg p-6">
-                <label className="block text-sm font-semibold text-amber-900 mb-2">
+                <label htmlFor="desired-volume" className="block text-sm font-semibold text-amber-900 mb-2">
                   Desired Volume (ml)
                 </label>
                 <input
+                  id="desired-volume"
                   type="number"
                   value={desiredVolume}
                   onChange={(e) => setDesiredVolume(e.target.value)}
                   placeholder="e.g., 5000"
                   step="100"
+                  aria-label="Target volume in milliliters"
+                  aria-describedby="volume-help"
                   className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
-                <p className="text-xs text-gray-500 mt-2">Leave empty to calculate from honey weight</p>
+                <p id="volume-help" className="text-xs text-gray-500 mt-2">Leave empty to calculate from honey weight</p>
               </div>
 
               <div className="bg-white rounded-lg shadow-lg p-6">
-                <label className="block text-sm font-semibold text-amber-900 mb-2">
+                <label htmlFor="desired-abv" className="block text-sm font-semibold text-amber-900 mb-2">
                   Desired ABV (%)
                 </label>
                 <input
+                  id="desired-abv"
                   type="number"
                   value={desiredABV}
                   onChange={(e) => setDesiredABV(e.target.value)}
                   placeholder="e.g., 12"
                   step="0.5"
+                  aria-label="Target alcohol by volume percentage"
+                  aria-describedby="abv-help"
                   className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
-                <p className="text-xs text-gray-500 mt-2">Leave empty to calculate from honey weight</p>
+                <p id="abv-help" className="text-xs text-gray-500 mt-2">Leave empty to calculate from honey weight</p>
               </div>
             </div>
 
@@ -262,7 +281,8 @@ export default function Calculator() {
 
                   <button
                     onClick={addIngredient}
-                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                    aria-label="Add a new ingredient to the recipe"
+                    className="w-full bg-blue-500 text-white px-4 py-3 rounded hover:bg-blue-600 transition min-h-[44px] flex items-center justify-center"
                   >
                     + Add Ingredient
                   </button>
@@ -271,11 +291,30 @@ export default function Calculator() {
 
               {/* Results Section */}
               <div>
-                {results ? (
-                  <CalculationResults results={results} />
+                {isCalculating ? (
+                  <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div className="flex justify-center mb-4">
+                      <div className="animate-spin h-8 w-8 border-4 border-amber-300 border-t-amber-600 rounded-full"></div>
+                    </div>
+                    <p className="text-amber-700 font-semibold">Calculating...</p>
+                    <p className="text-gray-500 text-sm mt-2" aria-live="polite" aria-busy="true">Please wait while we calculate your recipe</p>
+                  </div>
+                ) : results ? (
+                  <div>
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4 flex items-center gap-2">
+                      <span className="text-green-600 text-xl">✓</span>
+                      <div className="flex-1">
+                        <p className="text-green-800 font-semibold text-sm">Calculation successful</p>
+                        {calculationTime && (
+                          <p className="text-green-700 text-xs">Calculated in {calculationTime}ms</p>
+                        )}
+                      </div>
+                    </div>
+                    <CalculationResults results={results} />
+                  </div>
                 ) : (
                   <div className="bg-white rounded-lg shadow-lg p-6 text-center text-amber-700">
-                    <p>Results will appear here</p>
+                    <p>Enter honey details to see results</p>
                   </div>
                 )}
               </div>

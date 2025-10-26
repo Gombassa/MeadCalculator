@@ -1,0 +1,67 @@
+{
+  "timestamp": "2025-10-26T15:56:05.538Z",
+  "url": "https://meadcalc-frontend-821052837153.us-central1.run.app",
+  "findings": {
+    "pageLoad": {
+      "desktop": {
+        "loadTime": "3676ms",
+        "status": "success"
+      },
+      "tablet": {
+        "loadTime": "652ms"
+      },
+      "mobile": {
+        "loadTime": "673ms"
+      }
+    },
+    "accessibility": {
+      "desktop": {
+        "labelCount": 0,
+        "errorMessages": [],
+        "hasAlt": 0
+      }
+    },
+    "usability": {
+      "desktop": {
+        "pageTitle": "Master the Art of Mead Making",
+        "navigationButtons": 1,
+        "hasHoneySection": true,
+        "hasVolumeInput": false,
+        "hasABVInput": true
+      },
+      "mobileButtonsUnderSize": 1
+    },
+    "ux": {},
+    "performance": {},
+    "responsive": {
+      "tablet": {
+        "inputCount": 0,
+        "columnsDetected": true
+      }
+    },
+    "interactions": {},
+    "errors": []
+  },
+  "screenshots": [
+    {
+      "name": "Desktop - Initial State",
+      "file": "assessment-screenshots\\1-desktop-initial.png",
+      "viewport": "desktop 1920x1080"
+    },
+    {
+      "name": "Tablet - Initial State",
+      "file": "assessment-screenshots\\4-tablet-initial.png",
+      "viewport": "tablet 768x1024"
+    },
+    {
+      "name": "Mobile - Initial State",
+      "file": "assessment-screenshots\\5-mobile-initial.png",
+      "viewport": "mobile 375x667"
+    },
+    {
+      "name": "Mobile - After Scrolling",
+      "file": "assessment-screenshots\\6-mobile-scrolled.png"
+    }
+  ],
+  "recommendations": []
+}
