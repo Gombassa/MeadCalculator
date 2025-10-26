@@ -511,6 +511,7 @@ public class IngredientService : IIngredientService
                 Name = "Acacia Honey (75-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 76.5,
+                MedianSugarContent = 76.5,
                 Unit = "g",
                 Description = "Sweet, delicate, mild floral with vanilla hints"
             },
@@ -520,6 +521,7 @@ public class IngredientService : IIngredientService
                 Name = "Alfalfa Honey (74-76% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75,
+                MedianSugarContent = 75,
                 Unit = "g",
                 Description = "Mild, pleasingly sweet with beeswax aroma"
             },
@@ -529,6 +531,7 @@ public class IngredientService : IIngredientService
                 Name = "Apple Honey (76-79% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 77.5,
+                MedianSugarContent = 77.5,
                 Unit = "g",
                 Description = "Light, fruity, delicate apple notes"
             },
@@ -538,6 +541,7 @@ public class IngredientService : IIngredientService
                 Name = "Avocado Honey (74-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75.5,
+                MedianSugarContent = 75.5,
                 Unit = "g",
                 Description = "Rich molasses, buttery, spicy aroma"
             },
@@ -547,6 +551,7 @@ public class IngredientService : IIngredientService
                 Name = "Basswood/Linden Honey (74-76% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75,
+                MedianSugarContent = 75,
                 Unit = "g",
                 Description = "Fresh, woodsy, minty with slight bitterness"
             },
@@ -556,6 +561,7 @@ public class IngredientService : IIngredientService
                 Name = "Blueberry Honey (75-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 76.5,
+                MedianSugarContent = 76.5,
                 Unit = "g",
                 Description = "Full fruit flavor, flowery lemon aroma"
             },
@@ -565,6 +571,7 @@ public class IngredientService : IIngredientService
                 Name = "Buckwheat Honey (73-76% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 74.5,
+                MedianSugarContent = 74.5,
                 Unit = "g",
                 Description = "Strong, robust, molasses-like, slightly bitter"
             },
@@ -574,6 +581,7 @@ public class IngredientService : IIngredientService
                 Name = "Cherry Honey (75-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 76.5,
+                MedianSugarContent = 76.5,
                 Unit = "g",
                 Description = "Delicate, subtle fruit notes"
             },
@@ -583,6 +591,7 @@ public class IngredientService : IIngredientService
                 Name = "Chestnut Honey (72-75% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 73.5,
+                MedianSugarContent = 73.5,
                 Unit = "g",
                 Description = "Strong, slightly bitter, nutty"
             },
@@ -592,6 +601,7 @@ public class IngredientService : IIngredientService
                 Name = "Clover Honey (76-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 77,
+                MedianSugarContent = 77,
                 Unit = "g",
                 Description = "Sweet, floral, mild with slight sour aftertaste"
             },
@@ -601,6 +611,7 @@ public class IngredientService : IIngredientService
                 Name = "Dandelion Honey (73-76% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 74.5,
+                MedianSugarContent = 74.5,
                 Unit = "g",
                 Description = "Pronounced floral, tart finish"
             },
@@ -610,6 +621,7 @@ public class IngredientService : IIngredientService
                 Name = "Eucalyptus Honey (75-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 76.5,
+                MedianSugarContent = 76.5,
                 Unit = "g",
                 Description = "Herbal, menthol-like, medicinal scent"
             },
@@ -619,6 +631,7 @@ public class IngredientService : IIngredientService
                 Name = "Fireweed Honey (74-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75.5,
+                MedianSugarContent = 75.5,
                 Unit = "g",
                 Description = "Buttery, smooth, delicate"
             },
@@ -628,6 +641,7 @@ public class IngredientService : IIngredientService
                 Name = "Goldenrod Honey (74-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75.5,
+                MedianSugarContent = 75.5,
                 Unit = "g",
                 Description = "Rich, distinctive, slight bite, buttery"
             },
@@ -637,6 +651,7 @@ public class IngredientService : IIngredientService
                 Name = "Heather Honey (73-76% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 74.5,
+                MedianSugarContent = 74.5,
                 Unit = "g",
                 Description = "Very strong, distinctive, floral"
             },
@@ -646,6 +661,7 @@ public class IngredientService : IIngredientService
                 Name = "Lavender Honey (76-79% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 77.5,
+                MedianSugarContent = 77.5,
                 Unit = "g",
                 Description = "Delicate, subtle lavender taste and aroma"
             },
@@ -655,6 +671,7 @@ public class IngredientService : IIngredientService
                 Name = "Lehua Honey (74-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75.5,
+                MedianSugarContent = 75.5,
                 Unit = "g",
                 Description = "Unique, tropical, distinctive"
             },
@@ -664,6 +681,7 @@ public class IngredientService : IIngredientService
                 Name = "Linden (European) Honey (74-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75.5,
+                MedianSugarContent = 75.5,
                 Unit = "g",
                 Description = "Delicate, herbal aroma, hint of mint"
             },
@@ -673,6 +691,7 @@ public class IngredientService : IIngredientService
                 Name = "Manuka Honey (72-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75,
+                MedianSugarContent = 75,
                 Unit = "g",
                 Description = "Rich, earthy, aromatic, slightly bitter"
             },
@@ -682,6 +701,7 @@ public class IngredientService : IIngredientService
                 Name = "Mesquite Honey (74-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 75.5,
+                MedianSugarContent = 75.5,
                 Unit = "g",
                 Description = "Delicate, distinctive desert characteristics"
             },
@@ -691,6 +711,7 @@ public class IngredientService : IIngredientService
                 Name = "Orange Blossom Honey (75-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 76,
+                MedianSugarContent = 76,
                 Unit = "g",
                 Description = "Light citrus, subtle fruity undertones"
             },
@@ -700,6 +721,7 @@ public class IngredientService : IIngredientService
                 Name = "Palmetto Honey (75-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 76.5,
+                MedianSugarContent = 76.5,
                 Unit = "g",
                 Description = "Distinctive, regional characteristics"
             },
@@ -709,6 +731,7 @@ public class IngredientService : IIngredientService
                 Name = "Sage Honey (76-78% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 77,
+                MedianSugarContent = 77,
                 Unit = "g",
                 Description = "Mild, delightful, herbal with sage aroma"
             },
@@ -718,6 +741,7 @@ public class IngredientService : IIngredientService
                 Name = "Sourwood Honey (75-77% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 76,
+                MedianSugarContent = 76,
                 Unit = "g",
                 Description = "Sweet, buttery, slightly spicy, caramel-like"
             },
@@ -727,6 +751,7 @@ public class IngredientService : IIngredientService
                 Name = "Star Thistle Honey (76-79% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 77.5,
+                MedianSugarContent = 77.5,
                 Unit = "g",
                 Description = "Delicate, hints of cinnamon and summer fruit"
             },
@@ -736,6 +761,7 @@ public class IngredientService : IIngredientService
                 Name = "Tupelo Honey (76-79% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 77.5,
+                MedianSugarContent = 77.5,
                 Unit = "g",
                 Description = "Mild, distinctive, buttery, very sweet"
             },
@@ -745,6 +771,7 @@ public class IngredientService : IIngredientService
                 Name = "Wildflower Honey (73-76% sugar)",
                 Type = IngredientType.Honey,
                 SugarContentPercentage = 74.5,
+                MedianSugarContent = 74.5,
                 Unit = "g",
                 Description = "Rich, fruity, robust (varies by region)"
             },

@@ -9,6 +9,9 @@ public class Ingredient
     // Sugar content percentage (by weight for fruits, by volume for juices)
     public double SugarContentPercentage { get; set; }
 
+    // Median sugar content percentage (used for honeys with range values)
+    public double? MedianSugarContent { get; set; }
+
     // Unit of measurement
     public string Unit { get; set; } // "g" for grams (fruits), "ml" for milliliters (juices)
 

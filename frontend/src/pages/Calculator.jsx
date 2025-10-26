@@ -49,7 +49,7 @@ export default function Calculator() {
           ingredientName: selectedHoney?.name,
           type: selectedHoney?.type,
           amount: parseFloat(honey.amount),
-          sugarContentPercentage: selectedHoney?.sugarContentPercentage,
+          sugarContentPercentage: selectedHoney?.medianSugarContent ?? selectedHoney?.sugarContentPercentage,
           unit: selectedHoney?.unit,
         },
         // Add other ingredients

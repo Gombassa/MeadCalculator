@@ -40,7 +40,10 @@ export default function HoneySelector({
         </div>
 
         {selectedHoney && (
-          <div className="bg-amber-50 rounded p-4 border border-amber-200">
+          <div className="bg-amber-50 rounded p-4 border border-amber-200 space-y-3">
+            <p className="text-sm text-amber-900">
+              <span className="font-semibold">Median Sugar Content:</span> {selectedHoney.medianSugarContent ?? selectedHoney.sugarContentPercentage}% (used for calculations)
+            </p>
             <p className="text-sm text-amber-900">
               <span className="font-semibold">Description:</span> {selectedHoney.description}
             </p>
