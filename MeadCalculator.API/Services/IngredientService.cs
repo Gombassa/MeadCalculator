@@ -507,39 +507,246 @@ public class IngredientService : IIngredientService
             // Honey - Alphabetical with flavor profiles
             new Ingredient
             {
-                Id = 4,
-                Name = "Buckwheat Honey (80% sugar)",
+                Id = 101,
+                Name = "Acacia Honey (75-78% sugar)",
                 Type = IngredientType.Honey,
-                SugarContentPercentage = 80,
+                SugarContentPercentage = 76.5,
                 Unit = "g",
-                Description = "Dark, robust flavor with molasses and earthy notes. Creates deep, complex mead with mineral character"
+                Description = "Sweet, delicate, mild floral with vanilla hints"
+            },
+            new Ingredient
+            {
+                Id = 102,
+                Name = "Alfalfa Honey (74-76% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75,
+                Unit = "g",
+                Description = "Mild, pleasingly sweet with beeswax aroma"
+            },
+            new Ingredient
+            {
+                Id = 103,
+                Name = "Apple Honey (76-79% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 77.5,
+                Unit = "g",
+                Description = "Light, fruity, delicate apple notes"
+            },
+            new Ingredient
+            {
+                Id = 104,
+                Name = "Avocado Honey (74-77% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75.5,
+                Unit = "g",
+                Description = "Rich molasses, buttery, spicy aroma"
+            },
+            new Ingredient
+            {
+                Id = 105,
+                Name = "Basswood/Linden Honey (74-76% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75,
+                Unit = "g",
+                Description = "Fresh, woodsy, minty with slight bitterness"
+            },
+            new Ingredient
+            {
+                Id = 106,
+                Name = "Blueberry Honey (75-78% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 76.5,
+                Unit = "g",
+                Description = "Full fruit flavor, flowery lemon aroma"
+            },
+            new Ingredient
+            {
+                Id = 4,
+                Name = "Buckwheat Honey (73-76% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 74.5,
+                Unit = "g",
+                Description = "Strong, robust, molasses-like, slightly bitter"
+            },
+            new Ingredient
+            {
+                Id = 107,
+                Name = "Cherry Honey (75-78% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 76.5,
+                Unit = "g",
+                Description = "Delicate, subtle fruit notes"
+            },
+            new Ingredient
+            {
+                Id = 108,
+                Name = "Chestnut Honey (72-75% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 73.5,
+                Unit = "g",
+                Description = "Strong, slightly bitter, nutty"
             },
             new Ingredient
             {
                 Id = 1,
-                Name = "Clover Honey (80% sugar)",
+                Name = "Clover Honey (76-78% sugar)",
                 Type = IngredientType.Honey,
-                SugarContentPercentage = 80,
+                SugarContentPercentage = 77,
                 Unit = "g",
-                Description = "Light, mild flavor with subtle floral notes. Creates smooth, delicate base with clean finish"
+                Description = "Sweet, floral, mild with slight sour aftertaste"
+            },
+            new Ingredient
+            {
+                Id = 109,
+                Name = "Dandelion Honey (73-76% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 74.5,
+                Unit = "g",
+                Description = "Pronounced floral, tart finish"
+            },
+            new Ingredient
+            {
+                Id = 110,
+                Name = "Eucalyptus Honey (75-78% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 76.5,
+                Unit = "g",
+                Description = "Herbal, menthol-like, medicinal scent"
+            },
+            new Ingredient
+            {
+                Id = 111,
+                Name = "Fireweed Honey (74-77% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75.5,
+                Unit = "g",
+                Description = "Buttery, smooth, delicate"
+            },
+            new Ingredient
+            {
+                Id = 112,
+                Name = "Goldenrod Honey (74-77% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75.5,
+                Unit = "g",
+                Description = "Rich, distinctive, slight bite, buttery"
+            },
+            new Ingredient
+            {
+                Id = 113,
+                Name = "Heather Honey (73-76% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 74.5,
+                Unit = "g",
+                Description = "Very strong, distinctive, floral"
+            },
+            new Ingredient
+            {
+                Id = 114,
+                Name = "Lavender Honey (76-79% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 77.5,
+                Unit = "g",
+                Description = "Delicate, subtle lavender taste and aroma"
+            },
+            new Ingredient
+            {
+                Id = 115,
+                Name = "Lehua Honey (74-77% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75.5,
+                Unit = "g",
+                Description = "Unique, tropical, distinctive"
+            },
+            new Ingredient
+            {
+                Id = 116,
+                Name = "Linden (European) Honey (74-77% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75.5,
+                Unit = "g",
+                Description = "Delicate, herbal aroma, hint of mint"
+            },
+            new Ingredient
+            {
+                Id = 117,
+                Name = "Manuka Honey (72-78% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75,
+                Unit = "g",
+                Description = "Rich, earthy, aromatic, slightly bitter"
+            },
+            new Ingredient
+            {
+                Id = 118,
+                Name = "Mesquite Honey (74-77% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 75.5,
+                Unit = "g",
+                Description = "Delicate, distinctive desert characteristics"
             },
             new Ingredient
             {
                 Id = 3,
-                Name = "Orange Blossom Honey (80% sugar)",
+                Name = "Orange Blossom Honey (75-77% sugar)",
                 Type = IngredientType.Honey,
-                SugarContentPercentage = 80,
+                SugarContentPercentage = 76,
                 Unit = "g",
-                Description = "Aromatic with distinct citrus and floral notes. Creates elegant, complex mead with bright character"
+                Description = "Light citrus, subtle fruity undertones"
+            },
+            new Ingredient
+            {
+                Id = 119,
+                Name = "Palmetto Honey (75-78% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 76.5,
+                Unit = "g",
+                Description = "Distinctive, regional characteristics"
+            },
+            new Ingredient
+            {
+                Id = 120,
+                Name = "Sage Honey (76-78% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 77,
+                Unit = "g",
+                Description = "Mild, delightful, herbal with sage aroma"
+            },
+            new Ingredient
+            {
+                Id = 121,
+                Name = "Sourwood Honey (75-77% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 76,
+                Unit = "g",
+                Description = "Sweet, buttery, slightly spicy, caramel-like"
+            },
+            new Ingredient
+            {
+                Id = 122,
+                Name = "Star Thistle Honey (76-79% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 77.5,
+                Unit = "g",
+                Description = "Delicate, hints of cinnamon and summer fruit"
+            },
+            new Ingredient
+            {
+                Id = 123,
+                Name = "Tupelo Honey (76-79% sugar)",
+                Type = IngredientType.Honey,
+                SugarContentPercentage = 77.5,
+                Unit = "g",
+                Description = "Mild, distinctive, buttery, very sweet"
             },
             new Ingredient
             {
                 Id = 2,
-                Name = "Wildflower Honey (80% sugar)",
+                Name = "Wildflower Honey (73-76% sugar)",
                 Type = IngredientType.Honey,
-                SugarContentPercentage = 80,
+                SugarContentPercentage = 74.5,
                 Unit = "g",
-                Description = "Complex blend of floral flavors from mixed sources. Creates full-bodied mead with layered character"
+                Description = "Rich, fruity, robust (varies by region)"
             },
 
             // Water
