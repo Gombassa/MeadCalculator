@@ -38,7 +38,7 @@ public class NutrientController : ControllerBase
         if (request == null)
             return BadRequest("Request cannot be null");
 
-        if (request.BatchSizeGallons <= 0)
+        if (request.BatchSizeLiters <= 0)
             return BadRequest("Batch size must be greater than 0");
 
         try

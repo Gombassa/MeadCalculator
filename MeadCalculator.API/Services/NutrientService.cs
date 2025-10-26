@@ -115,11 +115,11 @@ public class NutrientService : INutrientService
         };
 
         var yanCalc = CalculateYAN(yanRequest);
-        var batchSizeLiters = request.BatchSizeGallons * 3.785; // Convert gallons to liters
+        var batchSizeLiters = request.BatchSizeLiters;
 
         var schedule = new SnaNutrientSchedule
         {
-            BatchSizeGallons = request.BatchSizeGallons,
+            BatchSizeLiters = request.BatchSizeLiters,
             YanCalculation = yanCalc
         };
 

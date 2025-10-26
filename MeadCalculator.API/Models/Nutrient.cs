@@ -47,7 +47,7 @@ public class YanCalculationResult
 
 public class SnaNutrientSchedule
 {
-    public double BatchSizeGallons { get; set; }
+    public double BatchSizeLiters { get; set; }
     public YanCalculationResult YanCalculation { get; set; }
     public List<SnaNutrientAddition> Additions { get; set; } = new();
     public Dictionary<NutrientType, double> TotalAdditives { get; set; } = new();
@@ -78,7 +78,7 @@ public class SnaScheduleRequest
     public double SpecificGravity { get; set; }
     public double Brix { get; set; }
     public YeastNitrogenRequirement YeastRequirement { get; set; }
-    public double BatchSizeGallons { get; set; }
+    public double BatchSizeLiters { get; set; }
     public List<NutrientType> AdditivesToUse { get; set; } = new();
     public bool UseGoFerm { get; set; } = true;
     public bool UseFermaidO { get; set; } = true;

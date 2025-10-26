@@ -12,7 +12,8 @@
       "Bash(gcloud run services describe:*)",
       "Bash(git checkout:*)",
       "Bash(git push:*)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(docker tag:*)"
     ],
     "deny": [],
     "ask": []

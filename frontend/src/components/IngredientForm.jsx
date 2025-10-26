@@ -31,7 +31,7 @@ export default function IngredientForm({
           <option value="">Select an ingredient...</option>
           {allIngredients.map(ing => (
             <option key={ing.id} value={ing.id}>
-              {ing.name} ({ing.type})
+              {ing.name} - {ing.sugarContentPercentage}% sugar
             </option>
           ))}
         </select>

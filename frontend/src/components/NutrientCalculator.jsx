@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { nutrientService } from '../services/api'
 
 export default function NutrientCalculator({ specificGravity, brix }) {
-  const [batchSizeGallons, setBatchSizeGallons] = useState('')
+  const [batchSizeLiters, setBatchSizeLiters] = useState('')
   const [yeastRequirement, setYeastRequirement] = useState('Low')
   const [additives, setAdditives] = useState({
     useGoFerm: true,
@@ -28,8 +28,8 @@ export default function NutrientCalculator({ specificGravity, brix }) {
     setSchedule(null)
 
     try {
-      if (!batchSizeGallons || parseFloat(batchSizeGallons) <= 0) {
-        setError('Please enter a valid batch size in gallons')
+      if (!batchSizeLiters || parseFloat(batchSizeLiters) <= 0) {
+        setError('Please enter a valid batch size in liters')
         setLoading(false)
         return
       }
@@ -56,7 +56,7 @@ export default function NutrientCalculator({ specificGravity, brix }) {
         specificGravity: parseFloat(specificGravity),
         brix: parseFloat(brix),
         yeastRequirement: yeastRequirementMap[yeastRequirement],
-        batchSizeGallons: parseFloat(batchSizeGallons),
+        batchSizeLiters: parseFloat(batchSizeLiters),
         additivesToUse: additivesList,
         useGoFerm: additives.useGoFerm,
         useFermaidO: additives.useFermaidO,
@@ -90,13 +90,13 @@ export default function NutrientCalculator({ specificGravity, brix }) {
           {/* Batch Size */}
           <div>
             <label className="block text-sm font-semibold text-amber-900 mb-2">
-              Batch Size (gallons)
+              Batch Size (liters)
             </label>
             <input
               type="number"
-              value={batchSizeGallons}
-              onChange={(e) => setBatchSizeGallons(e.target.value)}
-              placeholder="e.g., 5"
+              value={batchSizeLiters}
+              onChange={(e) => setBatchSizeLiters(e.target.value)}
+              placeholder="e.g., 20"
               className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
           </div>
@@ -260,7 +260,7 @@ export default function NutrientCalculator({ specificGravity, brix }) {
 
           {/* Totals Summary */}
           <div className="bg-gradient-to-r from-amber-100 to-yellow-100 rounded-lg shadow-lg p-6">
-            <h3 className="text-lg font-bold text-amber-900 mb-4">Total Nutrient Amounts for {schedule.batchSizeGallons} Gallons</h3>
+            <h3 className="text-lg font-bold text-amber-900 mb-4">Total Nutrient Amounts for {schedule.batchSizeLiters} Liters</h3>
             <div className="grid md:grid-cols-2 gap-4">
               {Object.entries(schedule.totalAdditives).map(([type, amount]) => {
                 const typeNames = { '0': 'Go Ferm PE', '1': 'Fermaid K', '2': 'Fermaid O', '3': 'DAP' }
