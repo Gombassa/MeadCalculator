@@ -43,6 +43,13 @@ export default function Calculator() {
 
     try {
       const selectedHoney = honeys.find(h => h.id === parseInt(honey.ingredientId))
+
+      // Get additional ingredients (excluding honey)
+      const additionalIngredients = ingredients.filter(ing => ing.ingredientId && ing.amount)
+
+      // Find water ingredient (id = 41)
+      const water = allIngredients.find(ing => ing.id === 41)
+
       const calculationIngredients = [
         {
           ingredientId: parseInt(honey.ingredientId),
@@ -53,21 +60,32 @@ export default function Calculator() {
           unit: selectedHoney?.unit,
         },
         // Add other ingredients
-        ...ingredients
-          .filter(ing => ing.ingredientId && ing.amount)
-          .map(ing => {
-            const selectedIngredient = allIngredients.find(
-              ai => ai.id === parseInt(ing.ingredientId)
-            )
-            return {
-              ingredientId: parseInt(ing.ingredientId),
-              ingredientName: selectedIngredient?.name,
-              type: selectedIngredient?.type,
-              amount: parseFloat(ing.amount),
-              sugarContentPercentage: selectedIngredient?.sugarContentPercentage,
-              unit: selectedIngredient?.unit,
-            }
-          })
+        ...additionalIngredients.map(ing => {
+          const selectedIngredient = allIngredients.find(
+            ai => ai.id === parseInt(ing.ingredientId)
+          )
+          return {
+            ingredientId: parseInt(ing.ingredientId),
+            ingredientName: selectedIngredient?.name,
+            type: selectedIngredient?.type,
+            amount: parseFloat(ing.amount),
+            sugarContentPercentage: selectedIngredient?.sugarContentPercentage,
+            unit: selectedIngredient?.unit,
+          }
+        }),
+        // Add water if desired volume or ABV is set and no other ingredients
+        ...(((desiredVolume && parseFloat(desiredVolume) > 0) || (desiredABV && parseFloat(desiredABV) > 0)) &&
+            additionalIngredients.length === 0 &&
+            water
+          ? [{
+              ingredientId: water.id,
+              ingredientName: water.name,
+              type: water.type,
+              amount: 0, // Will be calculated by backend
+              sugarContentPercentage: water.sugarContentPercentage,
+              unit: water.unit,
+            }]
+          : [])
       ]
 
       // Determine calculation mode based on inputs
