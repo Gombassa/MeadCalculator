@@ -19,14 +19,15 @@ RUN npm run build
 # Runtime stage - serve with nginx on Cloud Run
 FROM nginx:alpine
 
-# Create non-root user for security
-RUN addgroup -S nginx && adduser -S nginx -G nginx
-
+# nginx user already exists in nginx:alpine image
 # Copy built application
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy nginx configuration optimized for Cloud Run and SPA routing
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Change ownership to nginx user (already exists in image)
+RUN chown -R nginx:nginx /usr/share/nginx/html /etc/nginx/conf.d/default.conf
 
 # Cloud Run requires port 8080 for load balancer
 EXPOSE 8080
