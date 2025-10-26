@@ -32,6 +32,9 @@ RUN chown -R nginx:nginx /usr/share/nginx/html /etc/nginx/conf.d/default.conf
 # Cloud Run requires port 8080 for load balancer
 EXPOSE 8080
 
+# Set PORT environment variable for Cloud Run
+ENV PORT=8080
+
 # Health check for Cloud Run
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1
