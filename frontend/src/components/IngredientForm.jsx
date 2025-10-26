@@ -26,12 +26,12 @@ export default function IngredientForm({
         <select
           value={ingredient.ingredientId || ''}
           onChange={handleIngredientChange}
-          className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+          className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
         >
           <option value="">Select an ingredient...</option>
           {allIngredients.map(ing => (
             <option key={ing.id} value={ing.id}>
-              {ing.name} - {ing.sugarContentPercentage}% sugar
+              {ing.name} | {ing.primarySugars} | {ing.region}
             </option>
           ))}
         </select>

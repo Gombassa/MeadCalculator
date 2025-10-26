@@ -13,6 +13,12 @@ public class Ingredient
     public string Unit { get; set; } // "g" for grams (fruits), "ml" for milliliters (juices)
 
     public string Description { get; set; }
+
+    // Primary sugars composition (e.g., "Glucose (8.1g), Fructose (6.2g)")
+    public string PrimarySugars { get; set; }
+
+    // Geographic region where ingredient is grown/sourced
+    public string Region { get; set; }
 }
 
 public enum IngredientType

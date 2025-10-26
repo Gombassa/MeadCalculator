@@ -96,10 +96,10 @@ export default function Calculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 py-12 px-4">
+    <div className="min-h-screen py-12 px-4" style={{ backgroundColor: '#20752b' }}>
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-amber-900 mb-2">Mead Calculator</h1>
-        <p className="text-amber-700 mb-8">
+        <h1 className="text-4xl font-bold text-white mb-2">Mead Calculator</h1>
+        <p className="text-gray-200 mb-8">
           Calculate your mead recipe with precision
         </p>
 
