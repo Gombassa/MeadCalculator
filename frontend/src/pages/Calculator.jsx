@@ -1,31 +1,113 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ingredientService, calculatorService } from '../services/api'
+import HoneySelector from '../components/HoneySelector'
 import IngredientForm from '../components/IngredientForm'
 import CalculationResults from '../components/CalculationResults'
 import NutrientCalculator from '../components/NutrientCalculator'
 
 export default function Calculator() {
   const [activeTab, setActiveTab] = useState('abv')
+  const [honey, setHoney] = useState({ ingredientId: '', amount: '' })
   const [ingredients, setIngredients] = useState([])
   const [allIngredients, setAllIngredients] = useState([])
-  const [calculationMode, setCalculationMode] = useState('HoneyWeight')
-  const [targetValue, setTargetValue] = useState('')
+  const [honeys, setHoneys] = useState([])
+  const [desiredVolume, setDesiredVolume] = useState('')
+  const [desiredABV, setDesiredABV] = useState('')
   const [results, setResults] = useState(null)
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     loadIngredients()
   }, [])
 
+  // Trigger calculation in real-time when inputs change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      performCalculation()
+    }, 300) // Debounce for 300ms to avoid too many API calls
+
+    return () => clearTimeout(timer)
+  }, [performCalculation])
+
   const loadIngredients = async () => {
     try {
       const response = await ingredientService.getAll()
       setAllIngredients(response.data)
+      // Separate honeys from other ingredients (type 0 = Honey)
+      const honeyList = response.data.filter(ing => ing.type === 0)
+      const otherIngredients = response.data.filter(ing => ing.type !== 0)
+      setHoneys(honeyList)
+      // Note: honeys are separated, other ingredients stay in allIngredients for the form
     } catch (err) {
       setError('Failed to load ingredients: ' + err.message)
     }
   }
+
+  // Real-time calculation
+  const performCalculation = useCallback(async () => {
+    // Reset error on new calculation
+    setError('')
+
+    // Prepare honey
+    if (!honey.ingredientId || !honey.amount) {
+      setResults(null)
+      return
+    }
+
+    try {
+      const selectedHoney = honeys.find(h => h.id === parseInt(honey.ingredientId))
+      const calculationIngredients = [
+        {
+          ingredientId: parseInt(honey.ingredientId),
+          ingredientName: selectedHoney?.name,
+          type: selectedHoney?.type,
+          amount: parseFloat(honey.amount),
+          sugarContentPercentage: selectedHoney?.sugarContentPercentage,
+          unit: selectedHoney?.unit,
+        },
+        // Add other ingredients
+        ...ingredients
+          .filter(ing => ing.ingredientId && ing.amount)
+          .map(ing => {
+            const selectedIngredient = allIngredients.find(
+              ai => ai.id === parseInt(ing.ingredientId)
+            )
+            return {
+              ingredientId: parseInt(ing.ingredientId),
+              ingredientName: selectedIngredient?.name,
+              type: selectedIngredient?.type,
+              amount: parseFloat(ing.amount),
+              sugarContentPercentage: selectedIngredient?.sugarContentPercentage,
+              unit: selectedIngredient?.unit,
+            }
+          })
+      ]
+
+      // Determine calculation mode based on inputs
+      let mode = 0 // HoneyWeight
+      let targetValue = null
+
+      if (desiredVolume && parseFloat(desiredVolume) > 0) {
+        mode = 2 // TargetVolume
+        targetValue = parseFloat(desiredVolume)
+      } else if (desiredABV && parseFloat(desiredABV) > 0) {
+        mode = 1 // TargetABV
+        targetValue = parseFloat(desiredABV)
+      }
+
+      const request = {
+        ingredients: calculationIngredients,
+        mode: mode,
+        targetValue: targetValue,
+      }
+
+      const response = await calculatorService.calculate(request)
+      setResults(response.data)
+    } catch (err) {
+      setError('Calculation failed: ' + (err.response?.data?.message || err.message))
+      setResults(null)
+    }
+  }, [honey, ingredients, honeys, allIngredients, desiredVolume, desiredABV])
 
   const addIngredient = () => {
     setIngredients([
@@ -46,53 +128,8 @@ export default function Calculator() {
     )
   }
 
-  const handleCalculate = async () => {
-    setLoading(true)
-    setError('')
-    setResults(null)
-
-    try {
-      const calculationIngredients = ingredients
-        .filter(ing => ing.ingredientId && ing.amount)
-        .map(ing => {
-          const selectedIngredient = allIngredients.find(
-            ai => ai.id === parseInt(ing.ingredientId)
-          )
-          return {
-            ingredientId: parseInt(ing.ingredientId),
-            ingredientName: selectedIngredient?.name,
-            type: selectedIngredient?.type,
-            amount: parseFloat(ing.amount),
-            sugarContentPercentage: selectedIngredient?.sugarContentPercentage,
-            unit: selectedIngredient?.unit,
-          }
-        })
-
-      if (calculationIngredients.length === 0) {
-        setError('Please add at least one ingredient')
-        return
-      }
-
-      // Convert mode string to enum value (HoneyWeight=0, TargetABV=1, TargetVolume=2)
-      const modeMap = {
-        'HoneyWeight': 0,
-        'TargetABV': 1,
-        'TargetVolume': 2
-      }
-
-      const request = {
-        ingredients: calculationIngredients,
-        mode: modeMap[calculationMode],
-        targetValue: targetValue ? parseFloat(targetValue) : null,
-      }
-
-      const response = await calculatorService.calculate(request)
-      setResults(response.data)
-    } catch (err) {
-      setError('Calculation failed: ' + (err.response?.data?.message || err.message))
-    } finally {
-      setLoading(false)
-    }
+  const updateHoney = (field, value) => {
+    setHoney(prev => ({ ...prev, [field]: value }))
   }
 
   return (
@@ -136,25 +173,73 @@ export default function Calculator() {
               </div>
             )}
 
+            {/* Honey Selection - Full Width First */}
+            <div className="mb-8">
+              <HoneySelector
+                honey={honey}
+                allHoneys={honeys}
+                onUpdate={updateHoney}
+              />
+            </div>
+
+            {/* Desired Volume and ABV Inputs */}
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <label className="block text-sm font-semibold text-amber-900 mb-2">
+                  Desired Volume (ml)
+                </label>
+                <input
+                  type="number"
+                  value={desiredVolume}
+                  onChange={(e) => setDesiredVolume(e.target.value)}
+                  placeholder="e.g., 5000"
+                  step="100"
+                  className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+                <p className="text-xs text-gray-500 mt-2">Leave empty to calculate from honey weight</p>
+              </div>
+
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <label className="block text-sm font-semibold text-amber-900 mb-2">
+                  Desired ABV (%)
+                </label>
+                <input
+                  type="number"
+                  value={desiredABV}
+                  onChange={(e) => setDesiredABV(e.target.value)}
+                  placeholder="e.g., 12"
+                  step="0.5"
+                  className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+                <p className="text-xs text-gray-500 mt-2">Leave empty to calculate from honey weight</p>
+              </div>
+            </div>
+
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Input Section */}
               <div className="lg:col-span-2">
-                <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div className="bg-white rounded-lg shadow-lg p-6">
                   <h2 className="text-2xl font-bold text-amber-900 mb-6">
-                    Recipe Ingredients
+                    Additional Ingredients
                   </h2>
 
-                  <div className="space-y-4 mb-6">
-                    {ingredients.map(ing => (
-                      <IngredientForm
-                        key={ing.id}
-                        ingredient={ing}
-                        allIngredients={allIngredients}
-                        onUpdate={updateIngredient}
-                        onRemove={removeIngredient}
-                      />
-                    ))}
-                  </div>
+                  {ingredients.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4 mb-6">
+                      No additional ingredients added yet
+                    </p>
+                  ) : (
+                    <div className="space-y-4 mb-6">
+                      {ingredients.map(ing => (
+                        <IngredientForm
+                          key={ing.id}
+                          ingredient={ing}
+                          allIngredients={allIngredients}
+                          onUpdate={updateIngredient}
+                          onRemove={removeIngredient}
+                        />
+                      ))}
+                    </div>
+                  )}
 
                   <button
                     onClick={addIngredient}
@@ -162,59 +247,6 @@ export default function Calculator() {
                   >
                     + Add Ingredient
                   </button>
-                </div>
-
-                {/* Calculation Mode Section */}
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                  <h2 className="text-2xl font-bold text-amber-900 mb-6">
-                    Calculation Mode
-                  </h2>
-
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-amber-900 mb-2">
-                        Mode
-                      </label>
-                      <select
-                        value={calculationMode}
-                        onChange={(e) => setCalculationMode(e.target.value)}
-                        className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                      >
-                        <option value="HoneyWeight">
-                          Calculate ABV from ingredients
-                        </option>
-                        <option value="TargetABV">
-                          Target ABV (calculate honey needed)
-                        </option>
-                        <option value="TargetVolume">
-                          Target Volume
-                        </option>
-                      </select>
-                    </div>
-
-                    {calculationMode !== 'HoneyWeight' && (
-                      <div>
-                        <label className="block text-sm font-semibold text-amber-900 mb-2">
-                          {calculationMode === 'TargetABV' ? 'Target ABV (%)' : 'Target Volume (ml)'}
-                        </label>
-                        <input
-                          type="number"
-                          value={targetValue}
-                          onChange={(e) => setTargetValue(e.target.value)}
-                          placeholder={calculationMode === 'TargetABV' ? 'e.g., 12' : 'e.g., 5000'}
-                          className="w-full border border-amber-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                        />
-                      </div>
-                    )}
-
-                    <button
-                      onClick={handleCalculate}
-                      disabled={loading}
-                      className="w-full bg-gradient-to-r from-amber-600 to-yellow-600 text-white px-4 py-3 rounded font-semibold hover:from-amber-700 hover:to-yellow-700 transition disabled:opacity-50"
-                    >
-                      {loading ? 'Calculating...' : 'Calculate'}
-                    </button>
-                  </div>
                 </div>
               </div>
 
