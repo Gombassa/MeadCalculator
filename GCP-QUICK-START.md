@@ -32,7 +32,7 @@ git clone https://github.com/Gombassa/MeadCalculator.git
 cd MeadCalculator
 
 # Deploy
-.\scripts\Deploy-GCP.ps1 -ProjectId "your-gcp-project-id" -Region "us-central1"
+.\scripts\Deploy-GCP.ps1 -ProjectId "MeadCalculator" -Region "us-central1"
 ```
 
 ## What Gets Deployed
