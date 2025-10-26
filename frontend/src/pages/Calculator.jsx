@@ -16,19 +16,6 @@ export default function Calculator() {
   const [results, setResults] = useState(null)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    loadIngredients()
-  }, [])
-
-  // Trigger calculation in real-time when inputs change
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      performCalculation()
-    }, 300) // Debounce for 300ms to avoid too many API calls
-
-    return () => clearTimeout(timer)
-  }, [performCalculation])
-
   const loadIngredients = async () => {
     try {
       const response = await ingredientService.getAll()
@@ -131,6 +118,20 @@ export default function Calculator() {
   const updateHoney = (field, value) => {
     setHoney(prev => ({ ...prev, [field]: value }))
   }
+
+  // Load ingredients on mount
+  useEffect(() => {
+    loadIngredients()
+  }, [])
+
+  // Trigger calculation in real-time when inputs change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      performCalculation()
+    }, 300) // Debounce for 300ms to avoid too many API calls
+
+    return () => clearTimeout(timer)
+  }, [performCalculation])
 
   return (
     <div className="min-h-screen py-12 px-4" style={{ backgroundColor: '#20752b' }}>
