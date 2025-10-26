@@ -20,8 +20,8 @@ RUN dotnet publish "MeadCalculator.API.csproj" -c Release -o /app/publish /p:Use
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
 WORKDIR /app
 
-# Create non-root user for security
-RUN addgroup -S dotnet && adduser -S dotnet -G dotnet
+# Create non-root user for security (if it doesn't already exist)
+RUN id dotnet &>/dev/null || (addgroup -S dotnet && adduser -S dotnet -G dotnet)
 USER dotnet
 
 # Copy published application
