@@ -71,9 +71,16 @@ export default function Calculator() {
         return
       }
 
+      // Convert mode string to enum value (HoneyWeight=0, TargetABV=1, TargetVolume=2)
+      const modeMap = {
+        'HoneyWeight': 0,
+        'TargetABV': 1,
+        'TargetVolume': 2
+      }
+
       const request = {
         ingredients: calculationIngredients,
-        mode: calculationMode,
+        mode: modeMap[calculationMode],
         targetValue: targetValue ? parseFloat(targetValue) : null,
       }
 

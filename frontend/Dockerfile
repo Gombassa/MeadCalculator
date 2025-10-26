@@ -19,25 +19,20 @@ RUN npm run build
 # Runtime stage - serve with nginx on Cloud Run
 FROM nginx:alpine
 
-# nginx user already exists in nginx:alpine image
-# Copy built application
+# Copy built application to nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration optimized for Cloud Run and SPA routing
+# Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Change ownership to nginx user (already exists in image)
-RUN chown -R nginx:nginx /usr/share/nginx/html /etc/nginx/conf.d/default.conf
+# Remove default nginx config to avoid conflicts
+RUN rm -f /etc/nginx/conf.d/default.conf.orig
 
-# Cloud Run requires port 8080 for load balancer
+# Cloud Run requires port 8080
 EXPOSE 8080
 
-# Set PORT environment variable for Cloud Run
+# Set PORT for Cloud Run compatibility
 ENV PORT=8080
 
-# Health check for Cloud Run
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1
-
-# Start nginx in foreground
+# Start nginx in foreground (required for Cloud Run)
 CMD ["nginx", "-g", "daemon off;"]

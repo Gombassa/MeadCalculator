@@ -44,7 +44,7 @@ gcloud services enable containerregistry.googleapis.com
 
 ```bash
 # Set your GCP project
-export PROJECT_ID="your-gcp-project-id"
+export PROJECT_ID="meadCalculator"
 export REGION="us-central1"  # Change to your preferred region
 
 # Authenticate
@@ -66,7 +66,7 @@ chmod +x scripts/deploy-gcp.sh
 **On Windows (PowerShell):**
 ```powershell
 # Execute deployment script
-.\scripts\Deploy-GCP.ps1 -ProjectId "your-gcp-project-id" -Region "us-central1"
+.\scripts\Deploy-GCP.ps1 -ProjectId "meadCalculator" -Region "us-central1"
 ```
 
 ### 3. Access Your Application

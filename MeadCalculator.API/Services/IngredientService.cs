@@ -212,6 +212,15 @@ public class IngredientService : IIngredientService
                 SugarContentPercentage = 0,
                 Unit = "ml",
                 Description = "Pure water - no sugar content"
+            },
+            new Ingredient
+            {
+                Id = 42,
+                Name = "Spring Water",
+                Type = IngredientType.Water,
+                SugarContentPercentage = 0,
+                Unit = "ml",
+                Description = "Natural spring water - no sugar content"
             }
         };
     }
