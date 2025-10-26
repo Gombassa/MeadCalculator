@@ -1,0 +1,6 @@
+@MeadCalculator.API_HostAddress = http://localhost:5262
+
+GET {{MeadCalculator.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
